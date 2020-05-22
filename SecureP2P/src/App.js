@@ -7,16 +7,26 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text
-} from 'react-native';
+import { StatusBar } from 'react-native';
+import { createAppContainer } from 'react-navigation'
+import AppNavigator from './Navigator/Navigator';
+import Navigation from './Navigator/Navigation';
+
+const Main = createAppContainer(AppNavigator);
 
 const App = () => {
   return (
-    <View>
-      <Text>{'Secure P2P'}</Text>
-    </View>
+    <>
+      <StatusBar
+        backgroundColor="#267dbf"
+        barStyle="light-content"
+      />
+      <Main
+        ref={navigatorRef => {
+          Navigation.setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    </>
   );
 };
 

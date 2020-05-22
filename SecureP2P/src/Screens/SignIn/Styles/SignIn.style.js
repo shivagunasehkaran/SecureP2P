@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     cententer: {
         width: '100%',
-        height: 400,
+        height: 550,
         backgroundColor: '#daeaed'
     },
     cententerTitle: {
@@ -51,11 +51,11 @@ export const styles = StyleSheet.create({
     submit: {
         height: 50,
         backgroundColor: '#64c0d1',
-        marginTop: 40,
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 30,
-        borderRadius: 5
+        borderRadius: 5,
+        marginTop: 40
     },
     submitTitle: {
         color: '#fff',
@@ -68,9 +68,4 @@ export const styles = StyleSheet.create({
         fontFamily: 'Avenir-Black',
         textAlign: 'center'
     },
-    footer: {
-        width: '100%',
-        height: 150,
-        backgroundColor: '#daeaed'
-    }
 });

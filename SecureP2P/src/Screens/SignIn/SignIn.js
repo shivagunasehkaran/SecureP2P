@@ -17,11 +17,6 @@ const SignIn = ({ navigation }) => {
     // text input focus
     const passwordInput = useRef();
 
-    // move to next screen
-    const goToSignup = () => {
-        navigation.navigate('SignUp');
-    };
-
     // email & password validations
     const isValid = () => {
         if (email.length === 0) {
@@ -47,6 +42,11 @@ const SignIn = ({ navigation }) => {
         if (isValid()) {
             alert("valid")
         }
+    };
+
+    // move to next screen
+    const goToSignup = () => {
+        navigation.navigate('SignUp');
     };
 
     return (

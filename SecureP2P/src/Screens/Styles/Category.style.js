@@ -1,15 +1,17 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../Themes/Color';
+import Fonts from '../../Themes/Fonts';
 
 export const styles = StyleSheet.create({
-    photosContainer: {
+    passwordContainer: {
         flex: 2,
         height: 180,
-        backgroundColor: '#D96F9E'
+        backgroundColor: Colors.appColor
     },
     text: {
         fontSize: 22,
-        fontFamily: 'Avenir-Black',
-        color: '#fff',
+        fontFamily: Fonts.FONT_BLACK,
+        color: Colors.white,
         marginTop: 80,
         textAlign: 'center'
     },
@@ -19,11 +21,6 @@ export const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 80 / 2
-    },
-    passwordContainer: {
-        flex: 2,
-        height: 180,
-        backgroundColor: '#8541B0'
     },
     passwordIcon: {
         width: 60,

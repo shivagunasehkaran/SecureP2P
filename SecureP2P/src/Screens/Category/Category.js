@@ -1,30 +1,55 @@
-import React, { } from 'react';
-import { View, Text, TouchableOpacity, StatusBar, Image } from 'react-native';
-import PasswordIcon from '../../Assets/password.png';
-import ShivaIcon from '../../Assets/shiva.jpg';
-import { styles } from '../Styles/Category.style';
+import React, { Component } from 'react';
+import { FlatList, TouchableOpacity, Text } from 'react-native';
 
-const Category = ({ navigation }) => {
-    return (
-        <View style={{ flex: 1 }}>
-            <StatusBar
-                backgroundColor="#D96F9E"
-                barStyle="light-content"
+import Item from '../Components/Item';
+import Colors from '../../Themes/Color';
+import Fonts from '../../Themes/Fonts';
+
+const DATA = [
+    {
+        id: 1,
+        bank: 'ICICI',
+        username: 'shivaa'
+    },
+    {
+        id: 2,
+        bank: 'AXIS',
+        username: 'Chaiiii'
+    }
+];
+
+class Category extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: 'Categories',
+            headerStyle: {
+                backgroundColor: Colors.white,
+            },
+            headerTintColor: Colors.appColor,
+            headerRight: () =>
+                <TouchableOpacity onPress={() => alert('Logout')}>
+                    <Text
+                        style={{
+                            color: Colors.appColor,
+                            fontFamily: Fonts.FONT_BLACK,
+                            paddingRight: 12
+                        }}>
+                        {'Logout'}
+                    </Text>
+                </TouchableOpacity>,
+        };
+    };
+
+    render() {
+        return (
+            <FlatList
+                style={{ backgroundColor: Colors.grayShade }}
+                data={DATA}
+                renderItem={({ item }) => <Item item={item} />}
+                keyExtractor={item => item.id}
             />
-            <TouchableOpacity style={styles.photosContainer} onPress={() => alert('clicked')}>
-                <Text style={styles.text}>{"Secure all of your Photos"}</Text>
-                <Image source={ShivaIcon} style={styles.photoIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.passwordContainer} onPress={() => alert('clicked')}>
-                <Text style={styles.text}>{"Secure all of your Password"}</Text>
-                <Image source={PasswordIcon} style={styles.passwordIcon} />
-            </TouchableOpacity>
-        </View>
-    )
-}
-
-Category.navigationOptions = () => ({
-    title: 'Category'
-});
+        )
+    }
+};
 
 export default Category;

@@ -7,17 +7,16 @@
  */
 
 import React from 'react';
-import { StatusBar } from 'react-native';
 import { createAppContainer } from 'react-navigation'
-import AppNavigator from './Navigator/Navigator';
+import TabNavigator from './Navigator/Navigator';
 import Navigation from './Navigator/Navigation';
 
-const Main = createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(TabNavigator);
 
 const App = () => {
   return (
     <>
-      <Main
+      <AppContainer
         ref={navigatorRef => {
           Navigation.setTopLevelNavigator(navigatorRef);
         }}

@@ -1,14 +1,81 @@
+import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
-import SignIn from '../Screens/SignIn/SignIn';
-import SignUp from '../Screens/SignUp/SignUp';
-import Category from '../Screens/Category/Category';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-// base stacks for app flow (mainly functional component flows)
-const AppNavigator = createStackNavigator({
-    SignIn: { screen: SignIn },
-    SignUp: { screen: SignUp },
-    Category: { screen: Category },
-}, { initalRoute: 'SignIn', headerMode: 'none', }
+import Category from '../Screens/Category/Category';
+import Favorites from '../Screens/Favorites/Favorites';
+import Settings from '../Screens/Settings/Settings';
+
+import Color from '../Themes/Color';
+import Fonts from '../Themes/Fonts';
+
+// Base stacks for app flow
+const FavoriteStack = createStackNavigator({
+    Favorites: {
+        screen: Favorites
+    }
+});
+const CategoryStack = createStackNavigator({
+    Category: {
+        screen: Category,
+    }
+});
+const SettingStack = createStackNavigator({
+    Settings: {
+        screen: Settings,
+    }
+});
+// Tab navigators
+const TabNavigator = createBottomTabNavigator(
+    {
+        Favorites: {
+            screen: FavoriteStack,
+            navigationOptions: {
+                tabBarLabel: ({ tintColor }) => (
+                    <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: Fonts.FONT_ROMAN, color: tintColor }}>
+                        {('Favorites')}
+                    </Text>
+                ),
+                tabBarIcon: ({ horizontal, tintColor }) =>
+                    <Icon name="star" size={horizontal ? 20 : 22} color={tintColor} />,
+            },
+        },
+        Category: {
+            screen: CategoryStack,
+            navigationOptions: {
+                tabBarLabel: ({ tintColor }) => (
+                    <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: Fonts.FONT_ROMAN, color: tintColor }}>
+                        {('Category')}
+                    </Text>
+                ),
+                tabBarIcon: ({ horizontal, tintColor }) =>
+                    <Icon name="layer-group" size={horizontal ? 20 : 22} color={tintColor} />,
+            },
+        },
+        Settings: {
+            screen: SettingStack,
+            navigationOptions: {
+                tabBarLabel: ({ tintColor }) => (
+                    <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: Fonts.FONT_ROMAN, color: tintColor }}>
+                        {('Settings')}
+                    </Text>
+                ),
+                tabBarIcon: ({ horizontal, tintColor }) =>
+                    <Icon name="cogs" size={horizontal ? 20 : 22} color={tintColor} />,
+            },
+        },
+    },
+    {
+        tabBarOptions: {
+            activeTintColor: Color.appColor,
+            inactiveTintColor: Color.grayShade,
+            style: {
+                backgroundColor: Color.white,
+            },
+        },
+    },
 );
 
-export default AppNavigator;
+export default TabNavigator;

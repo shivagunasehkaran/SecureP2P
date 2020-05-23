@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 150,
-        backgroundColor: '#64c0d1'
+        backgroundColor: '#D96F9E'
     },
     headerTitle: {
         color: '#fff',
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     },
     cententer: {
         width: '100%',
-        height: 550,
+        height: 600,
         backgroundColor: '#daeaed'
     },
     cententerTitle: {
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     },
     submit: {
         height: 50,
-        backgroundColor: '#64c0d1',
+        backgroundColor: '#D96F9E',
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 30,
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Avenir-Black'
     },
     alreadySignInLabel: {
-        color: '#64c0d1',
+        color: '#D96F9E',
         fontSize: 15,
         fontFamily: 'Avenir-Black',
         textAlign: 'center'

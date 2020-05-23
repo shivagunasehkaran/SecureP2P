@@ -3,9 +3,10 @@ import {
     View,
     Text,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    StatusBar
 } from 'react-native';
-import { styles } from './Styles/SignIn.style';
+import { styles } from '../Styles/SignIn.style';
 
 const SignIn = ({ navigation }) => {
 
@@ -40,7 +41,7 @@ const SignIn = ({ navigation }) => {
     // login success actions
     const loginSuccess = () => {
         if (isValid()) {
-            alert("valid")
+            navigation.navigate('Category');
         }
     };
 
@@ -55,6 +56,10 @@ const SignIn = ({ navigation }) => {
             flexDirection: 'column',
             alignItems: 'space-between',
         }}>
+            <StatusBar
+                backgroundColor="#D96F9E"
+                barStyle="light-content"
+            />
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>{'Here you can Login'}</Text>
                 <Text style={styles.headerSubTitle}>{"Let's join us :)"}</Text>
@@ -92,7 +97,7 @@ const SignIn = ({ navigation }) => {
                     <Text style={styles.submitTitle}>{'Login'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginTop: 15 }} onPress={() => goToSignup()}>
-                    <Text style={styles.alreadySignInLabel}>{'Already have account? Signup'}</Text>
+                    <Text style={styles.alreadySignInLabel}>{"Haven't any account? Signup"}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.footer} />

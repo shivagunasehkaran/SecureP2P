@@ -3,9 +3,10 @@ import {
     View,
     Text,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    StatusBar
 } from 'react-native';
-import { styles } from '../SignIn/Styles/SignIn.style';
+import { styles } from '../Styles/SignUp.style';
 
 const SignUp = ({ navigation }) => {
 
@@ -65,6 +66,10 @@ const SignUp = ({ navigation }) => {
             flexDirection: 'column',
             alignItems: 'space-between',
         }}>
+            <StatusBar
+                backgroundColor="#8541B0"
+                barStyle="light-content"
+            />
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>{'Here you can Sign up'}</Text>
                 <Text style={styles.headerSubTitle}>{"Sign up for free and injoy it :)"}</Text>
@@ -117,7 +122,7 @@ const SignUp = ({ navigation }) => {
                     <Text style={styles.submitTitle}>{'Sign up'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginTop: 15 }} onPress={() => goToLogin()}>
-                    <Text style={styles.alreadySignInLabel}>{"Haven't any account? Login"}</Text>
+                    <Text style={styles.alreadySignInLabel}>{"Already have account? Login"}</Text>
                 </TouchableOpacity>
             </View>
         </View>

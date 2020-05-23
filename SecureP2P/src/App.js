@@ -17,10 +17,6 @@ const Main = createAppContainer(AppNavigator);
 const App = () => {
   return (
     <>
-      <StatusBar
-        backgroundColor="#64c0d1"
-        barStyle="light-content"
-      />
       <Main
         ref={navigatorRef => {
           Navigation.setTopLevelNavigator(navigatorRef);

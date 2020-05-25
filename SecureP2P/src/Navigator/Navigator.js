@@ -7,26 +7,24 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Category from '../Screens/Category/Category';
 import Favorites from '../Screens/Favorites/Favorites';
 import Settings from '../Screens/Settings/Settings';
+import AddDetails from '../Screens/AddDetails/AddDetails';
 
 import Color from '../Themes/Color';
 import Fonts from '../Themes/Fonts';
 
 // Base stacks for app flow
 const FavoriteStack = createStackNavigator({
-    Favorites: {
-        screen: Favorites
-    }
+    Favorites: Favorites,
+    AddDetails: AddDetails
 });
 const CategoryStack = createStackNavigator({
-    Category: {
-        screen: Category,
-    }
+    Category: Category,
+    AddDetails: AddDetails
 });
 const SettingStack = createStackNavigator({
-    Settings: {
-        screen: Settings,
-    }
+    Settings: Settings
 });
+
 // Tab navigators
 const TabNavigator = createBottomTabNavigator(
     {

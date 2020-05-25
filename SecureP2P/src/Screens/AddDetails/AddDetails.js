@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, View, Image, TextInput } from 'react-native';
+import { TouchableOpacity, Text, View, Image, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { styles } from '../Styles/AddDetails.style';
 import Colors from '../../Themes/Color';
-import Fonts from '../../Themes/Fonts';
+
 import SaveIcon from '../../Assets/save.png';
+import CategoryIcon from '../../Assets/category.png';
+import UserIcon from '../../Assets/user.png';
+import PasswordIcon from '../../Assets/passwrd.png';
+import WebsiteIcon from '../../Assets/website.png';
+import ErrorMessage from '../Components/ErrorMessage';
 
 // get 'this' context to use function in 'navigationOptions'
 let take = null;
@@ -25,25 +30,34 @@ class AddDetails extends Component {
         };
     };
 
-    state = {
-        category: '',
-        description: '',
-        isDescriptionEmpty: false,
-        isCategoryEmpty: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            category: '',
+            username: '',
+            password: '',
+            website: '',
+            isCategoryEmpty: false,
+            isUsernameEmpty: false,
+            isPasswordEmpty: false,
+            isWebsiteEmpty: false
+        };
+        this.categoryInput = React.createRef();
+        this.usernameInput = React.createRef();
+        this.passwordInput = React.createRef();
+        this.websiteInput = React.createRef();
+    }
 
     // save details
     doSaveDetails = () => {
         if (this.isValid()) {
-
-        } else {
-            alert("Fill out all the fields");
+            alert('Added');
         }
     };
 
     // validation of text inputs
     isValid = () => {
-        const { category, description } = this.state;
+        const { category, username, password, website } = this.state;
 
         if (category.length === 0) {
             this.setState({
@@ -53,39 +67,113 @@ class AddDetails extends Component {
             this.setState({ isCategoryEmpty: false });
         }
 
-        if (description.length === 0) {
+        if (username.length === 0) {
             this.setState({
-                isDescriptionEmpty: true,
+                isUsernameEmpty: true,
             });
         } else {
-            this.setState({ isDescriptionEmpty: false });
+            this.setState({ isUsernameEmpty: false });
+        }
+
+        if (password.length === 0) {
+            this.setState({
+                isPasswordEmpty: true,
+            });
+        } else {
+            this.setState({ isPasswordEmpty: false });
+        }
+
+        if (website.length === 0) {
+            this.setState({
+                isWebsiteEmpty: true,
+            });
+        } else {
+            this.setState({ isWebsiteEmpty: false });
         }
 
         return (
-            description.length > 0 &&
-            category.length > 0
+            category.length > 0 &&
+            username.length > 0 &&
+            password.length > 0 &&
+            website.length > 0
         );
     };
 
     render() {
         take = this;
+        const { isCategoryEmpty, isUsernameEmpty, isPasswordEmpty, isWebsiteEmpty } = this.state;
         return (
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 <View style={styles.container}>
-                    <Text style={styles.titleText}>{'Categories'} :</Text>
-                    <TextInput
-                        style={styles.textContainer}
-                        placeholder="Enter category "
-                        onChangeText={category => this.setState({ category, isCategoryEmpty: false })}
-                    />
-                    <Text style={styles.titleText}>{'Description'} :</Text>
-                    <TextInput
-                        style={styles.textContainer}
-                        placeholder="Enter a description "
-                        onChangeText={description => this.setState({ description, isDescriptionEmpty: false })}
-                    />
+                    <Text style={styles.titleText}>{'Categories'}</Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            ref={this.categoryInput}
+                            style={styles.textContainer}
+                            placeholder='Enter Category'
+                            returnKeyType='next'
+                            onChangeText={category => this.setState({ category, isCategoryEmpty: false })}
+                            onSubmitEditing={() => this.usernameInput.current.focus()}
+                        />
+                        <View style={styles.textInputIcons}>
+                            <Image source={CategoryIcon} style={styles.icons} />
+                        </View>
+                    </View>
+                    {
+                        isCategoryEmpty && <ErrorMessage />
+                    }
+                    <Text style={styles.titleText}>{'Username'}</Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            ref={this.usernameInput}
+                            style={styles.textContainer}
+                            placeholder='Enter Username'
+                            returnKeyType='next'
+                            onChangeText={username => this.setState({ username, isUsernameEmpty: false })}
+                            onSubmitEditing={() => this.passwordInput.current.focus()}
+                        />
+                        <View style={styles.textInputIcons}>
+                            <Image source={UserIcon} style={styles.icons} />
+                        </View>
+                    </View>
+                    {
+                        isUsernameEmpty && <ErrorMessage />
+                    }
+                    <Text style={styles.titleText}>{'Password'}</Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            ref={this.passwordInput}
+                            style={styles.textContainer}
+                            placeholder='Enter Password'
+                            returnKeyType='next'
+                            onChangeText={password => this.setState({ password, isPasswordEmpty: false })}
+                            onSubmitEditing={() => this.websiteInput.current.focus()}
+                        />
+                        <View style={styles.textInputIcons}>
+                            <Image source={PasswordIcon} style={styles.icons} />
+                        </View>
+                    </View>
+                    {
+                        isPasswordEmpty && <ErrorMessage />
+                    }
+                    <Text style={styles.titleText}>{'Website'}</Text>
+                    <View style={styles.textInputContainer}>
+                        <TextInput
+                            ref={this.websiteInput}
+                            style={styles.textContainer}
+                            placeholder='Enter Website'
+                            returnKeyType='done'
+                            onChangeText={website => this.setState({ website, isWebsiteEmpty: false })}
+                        />
+                        <View style={styles.textInputIcons}>
+                            <Image source={WebsiteIcon} style={styles.icons} />
+                        </View>
+                    </View>
+                    {
+                        isWebsiteEmpty && <ErrorMessage />
+                    }
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 };

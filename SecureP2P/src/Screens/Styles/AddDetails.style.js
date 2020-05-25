@@ -1,60 +1,64 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../Themes/Color';
+import Fonts from '../../Themes/Fonts';
 
 export const styles = StyleSheet.create({
-    container: { flex: 1, margin: 20 },
-    textContainer: {
-        height: 50,
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        elevation: 1,
-        borderRadius: 5,
-        fontSize: 20,
-        paddingLeft: 15
-    },
-    datePicker: {
-        height: 50,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        elevation: 1,
-        borderRadius: 5,
-        fontSize: 20,
-        paddingLeft: 15,
-        width: 375,
-        borderColor: '#fff'
+    container: {
+        flex: 1,
+        margin: 30,
     },
     titleText: {
-        margin: 15,
-        fontSize: 20,
-        fontFamily: 'Avenir-Medium',
-        color: '#000'
+        fontSize: 16,
+        fontFamily: Fonts.FONT_ROMAN,
+        color: Colors.black,
+        marginTop: 14
     },
-    submitText: {
-        margin: 10,
-        fontSize: 20,
-        fontFamily: 'Avenir-Medium',
-        color: '#fff'
-    },
-    button: {
-        backgroundColor: '#117FDC',
+    textInputContainer: {
+        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 70,
-        width: '100%',
-        position: 'absolute',
-        bottom: 0,
-    }
+        marginTop: 10
+    },
+    textContainer: {
+        flex: 2,
+        height: 45,
+        backgroundColor: Colors.white,
+        borderColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowColor: Colors.black,
+        shadowOpacity: 0.2,
+        elevation: 1,
+        borderBottomLeftRadius: 5,
+        borderTopLeftRadius: 5,
+        fontSize: 16,
+        paddingLeft: 15,
+        fontFamily: Fonts.FONT_ROMAN,
+    },
+    textInputIcons: {
+        height: 45,
+        backgroundColor: Colors.white,
+        borderColor: Colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowColor: Colors.black,
+        shadowOpacity: 0.2,
+        elevation: 1,
+        borderBottomRightRadius: 5,
+        borderTopRightRadius: 5,
+    },
+    icons: {
+        height: 23,
+        width: 23,
+        margin: 10
+    },
+    errorMessage: {
+        color: Colors.errorMessage,
+        fontSize: 13,
+        fontFamily: Fonts.FONT_MEDIUM,
+    },
 });

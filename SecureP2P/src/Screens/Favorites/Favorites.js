@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { FlatList, TouchableOpacity, Text } from 'react-native';
+import { FlatList, TouchableOpacity, View, Image } from 'react-native';
 
 import Item from '../Components/Item';
 import Colors from '../../Themes/Color';
 import Fonts from '../../Themes/Fonts';
+import AddIcon from '../../Assets/add.png';
 
 const DATA = [
     {
@@ -27,15 +28,10 @@ class Favorites extends Component {
             },
             headerTintColor: Colors.appColor,
             headerRight: () =>
-                <TouchableOpacity onPress={() => alert('Logout')}>
-                    <Text
-                        style={{
-                            color: Colors.appColor,
-                            fontFamily: Fonts.FONT_BLACK,
-                            paddingRight: 12
-                        }}>
-                        {'Logout'}
-                    </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('AddDetails')}>
+                    <View style={{ flex: 1, width: 60 }}>
+                        <Image source={AddIcon} style={{ height: 30, width: 30, margin: 13 }} />
+                    </View>
                 </TouchableOpacity>,
         };
     };

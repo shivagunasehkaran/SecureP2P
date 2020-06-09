@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Text, View, Image, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { TouchableOpacity, Text, View, Image, TextInput, Picker, ScrollView } from 'react-native';
 
 import { styles } from '../Styles/AddDetails.style';
 import Colors from '../../Themes/Color';
+import Navigation from '../../Navigator/Navigation';
 
 import SaveIcon from '../../Assets/save.png';
 import CategoryIcon from '../../Assets/category.png';
@@ -37,10 +38,10 @@ class AddDetails extends Component {
             username: '',
             password: '',
             website: '',
-            isCategoryEmpty: false,
             isUsernameEmpty: false,
             isPasswordEmpty: false,
-            isWebsiteEmpty: false
+            isWebsiteEmpty: false,
+            selectedValue: 'Others'
         };
         this.categoryInput = React.createRef();
         this.usernameInput = React.createRef();
@@ -50,22 +51,24 @@ class AddDetails extends Component {
 
     // save details
     doSaveDetails = () => {
+        const { category, username, password, website } = this.state;
         if (this.isValid()) {
-            alert('Added');
+
+            let categoryDetails = {
+                category: category,
+                username: username,
+                password: password,
+                website: website
+            };
+
+            console.log('categoryDetails -->', JSON.stringify(categoryDetails));
+            Navigation.navigate('Category');
         }
     };
 
     // validation of text inputs
     isValid = () => {
-        const { category, username, password, website } = this.state;
-
-        if (category.length === 0) {
-            this.setState({
-                isCategoryEmpty: true,
-            });
-        } else {
-            this.setState({ isCategoryEmpty: false });
-        }
+        const { username, password, website } = this.state;
 
         if (username.length === 0) {
             this.setState({
@@ -92,7 +95,6 @@ class AddDetails extends Component {
         }
 
         return (
-            category.length > 0 &&
             username.length > 0 &&
             password.length > 0 &&
             website.length > 0
@@ -101,31 +103,32 @@ class AddDetails extends Component {
 
     render() {
         take = this;
-        const { isCategoryEmpty, isUsernameEmpty, isPasswordEmpty, isWebsiteEmpty } = this.state;
+        const { isUsernameEmpty, isPasswordEmpty, isWebsiteEmpty } = this.state;
         return (
             <ScrollView style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <Text style={styles.titleText}>{'Categories'}</Text>
                     <View style={styles.textInputContainer}>
-                        <TextInput
-                            ref={this.categoryInput}
+                        <Picker
+                            selectedValue={this.state.category}
                             style={styles.textContainer}
-                            placeholder='Enter Category'
-                            returnKeyType='next'
-                            onChangeText={category => this.setState({ category, isCategoryEmpty: false })}
-                            onSubmitEditing={() => this.usernameInput.current.focus()}
-                        />
+                            onValueChange={(category) => this.setState({ category })}
+                        >
+                            <Picker.Item label="Others" value="others" />
+                            <Picker.Item label="Apps" value="apps" />
+                            <Picker.Item label="Banking" value="bank" />
+                            <Picker.Item label="Email" value="email" />
+                            <Picker.Item label="Work" value="work" />
+                            <Picker.Item label="Messenger" value="message" />
+                        </Picker>
                         <View style={styles.textInputIcons}>
                             <Image source={CategoryIcon} style={styles.icons} />
                         </View>
                     </View>
-                    {
-                        isCategoryEmpty && <ErrorMessage />
-                    }
                     <Text style={styles.titleText}>{'Username'}</Text>
                     <View style={styles.textInputContainer}>
                         <TextInput
-                            ref={this.usernameInput}
+                            // ref={this.usernameInput}
                             style={styles.textContainer}
                             placeholder='Enter Username'
                             returnKeyType='next'

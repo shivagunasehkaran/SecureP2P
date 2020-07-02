@@ -1,23 +1,78 @@
 import React, { Component } from 'react';
-import { FlatList, TouchableOpacity, Text, View, Image } from 'react-native';
+import { FlatList, TouchableOpacity, Text, View, Image, Alert } from 'react-native';
+import { updateTodoList, deleteTodoList, queryAllTodoLists } from '../../Databases/allSchemas';
+import realm from '../../Databases/allSchemas';
+import Swipeout from 'react-native-swipeout';
 
-import Item from '../Components/Item';
+import { styles } from '../../Screens/Components/Styles/Items.style';
+import Navigation from '../../Navigator/Navigation';
+
 import Colors from '../../Themes/Color';
 import Fonts from '../../Themes/Fonts';
 import AddIcon from '../../Assets/add.png';
+import PasswordIcon from '../../Assets/password.png';
 
-const DATA = [
-    {
-        id: 1,
-        bank: 'ICICI',
-        username: 'shivaa'
-    },
-    {
-        id: 2,
-        bank: 'AXIS',
-        username: 'Chaiiii'
+const FlatListItem = props => {
+    const { id, name, creationDate, onPressItem } = props.item;
+
+    const showEditModal = () => {
+        const existingTodoList = {
+            id: id,
+            name: name,
+        };
+
+        Navigation.navigate('AddDetails', { isEditExisting: true, existingTodoList: existingTodoList })
     }
-];
+
+    const showDeleteConfirmation = () => {
+        Alert.alert(
+            'Delete',
+            'Delete a todoList',
+            [
+                {
+                    text: 'No', onPress: () => { },//Do nothing
+                    style: 'cancel'
+                },
+                {
+                    text: 'Yes', onPress: () => {
+                        deleteTodoList(id).then().catch(error => {
+                            alert(`Failed to delete todoList with id = ${id}, error=${error}`);
+                        });
+                    }
+                },
+            ],
+            { cancelable: true }
+        );
+    };
+
+    return (
+        <Swipeout right={[
+            {
+                text: 'Edit',
+                backgroundColor: 'rgb(81,134,237)',
+                onPress: () => showEditModal()
+            },
+            {
+                text: 'Delete',
+                backgroundColor: 'rgb(217, 80, 64)',
+                onPress: () => showDeleteConfirmation()
+            }
+        ]} autoClose={true}>
+            <TouchableOpacity onPress={onPressItem}>
+                <View style={styles.item}>
+                    <Image source={PasswordIcon} style={styles.categoryImage} />
+                    <View style={styles.textContainer}>
+                        <Text style={styles.title}>{name}</Text>
+                        <Text style={styles.subTitle}>{creationDate.toString()}</Text>
+                    </View>
+                    {/* <TouchableOpacity onPress={() => setActiveState()}>
+                        <Image source={(!active) ? StarIconActive : StarIconInActive} style={styles.favIcon} />
+                    </TouchableOpacity> */}
+                </View>
+            </TouchableOpacity>
+        </Swipeout >
+    );
+}
 
 class Category extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -36,13 +91,36 @@ class Category extends Component {
         };
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            todoLists: []
+        };
+        this.reloadData();
+        realm.addListener('change', () => {
+            this.reloadData();
+        });
+    }
+
+    reloadData = () => {
+        queryAllTodoLists().then((todoLists) => {
+            this.setState({ todoLists });
+        }).catch((error) => {
+            this.setState({ todoLists: [] });
+        });
+        console.log(`reloadData`);
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
                     style={{ backgroundColor: Colors.grayShade }}
-                    data={DATA}
-                    renderItem={({ item }) => <Item item={item} />}
+                    data={this.state.todoLists}
+                    renderItem={({ item }) => <FlatListItem item={item}
+                        onPressItem={() => {
+                            alert(`You pressed item`);
+                        }} />}
                     keyExtractor={item => item.id}
                 />
             </View>

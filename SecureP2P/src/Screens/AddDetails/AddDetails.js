@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Text, View, Image, TextInput, Picker, ScrollView } from 'react-native';
+import { insertNewTodoList, updateTodoList } from '../../Databases/allSchemas';
 
 import { styles } from '../Styles/AddDetails.style';
 import Colors from '../../Themes/Color';
@@ -41,7 +42,9 @@ class AddDetails extends Component {
             isUsernameEmpty: false,
             isPasswordEmpty: false,
             isWebsiteEmpty: false,
-            selectedValue: 'Others'
+            selectedValue: 'Others',
+            isEditExisting: false,
+            existingTodoList: ''
         };
         this.categoryInput = React.createRef();
         this.usernameInput = React.createRef();
@@ -49,19 +52,44 @@ class AddDetails extends Component {
         this.websiteInput = React.createRef();
     }
 
+    componentDidMount() {
+        if (this.props.navigation.getParam('isEditExisting') != null && this.props.navigation.getParam('isEditExisting') != '') {
+            let isEditExisting = this.props.navigation.getParam('isEditExisting');
+            this.setState({
+                isEditExisting: isEditExisting
+            })
+        }
+        if (this.props.navigation.getParam('existingTodoList') != null && this.props.navigation.getParam('existingTodoList') != '') {
+            let existingTodoList = this.props.navigation.getParam('existingTodoList');
+            this.setState({
+                existingTodoList: existingTodoList,
+                username: existingTodoList.name
+            })
+        }
+    }
+
     // save details
     doSaveDetails = () => {
-        const { category, username, password, website } = this.state;
+        const { category, username, password, website, isEditExisting, existingTodoList } = this.state;
         if (this.isValid()) {
-
-            let categoryDetails = {
-                category: category,
-                username: username,
-                password: password,
-                website: website
-            };
-
-            console.log('categoryDetails -->', JSON.stringify(categoryDetails));
+            if (isEditExisting == true) {
+                const todoList = {
+                    id: existingTodoList.id,
+                    name: username,
+                };
+                updateTodoList(todoList).then().catch((error) => {
+                    alert(`Update todoList error ${error}`);
+                });
+            } else {
+                const newTodoList = {
+                    id: Math.floor(Date.now() / 1000),
+                    name: username,
+                    creationDate: new Date()
+                };
+                insertNewTodoList(newTodoList).then().catch((error) => {
+                    alert(`Insert new todoList error ${error}`);
+                });
+            }
             Navigation.navigate('Category');
         }
     };
@@ -130,6 +158,7 @@ class AddDetails extends Component {
                         <TextInput
                             // ref={this.usernameInput}
                             style={styles.textContainer}
+                            value={this.state.username}
                             placeholder='Enter Username'
                             returnKeyType='next'
                             onChangeText={username => this.setState({ username, isUsernameEmpty: false })}

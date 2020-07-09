@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { FlatList, TouchableOpacity, Text, View, Image, Alert } from 'react-native';
 import { updateTodoList, deleteTodoList, queryAllTodoLists } from '../../Databases/allSchemas';
 import realm from '../../Databases/allSchemas';
@@ -6,15 +6,25 @@ import Swipeout from 'react-native-swipeout';
 
 import { styles } from '../../Screens/Components/Styles/Items.style';
 import Navigation from '../../Navigator/Navigation';
+import { ConvertDate } from '../../Utils/utilities';
 
 import Colors from '../../Themes/Color';
 import Fonts from '../../Themes/Fonts';
 import AddIcon from '../../Assets/add.png';
 import PasswordIcon from '../../Assets/password.png';
+import StarIconActive from '../../Assets/staractive.png';
+import StarIconInActive from '../../Assets/starinactive.png';
 
 const FlatListItem = props => {
     const { id, name, creationDate, onPressItem } = props.item;
+    const [active, setActive] = useState(true);
 
+    // flag for add favorite
+    const setActiveState = () => {
+        setActive(!active);
+    };
+
+    // moving to edit screen
     const showEditModal = () => {
         const existingTodoList = {
             id: id,
@@ -22,7 +32,7 @@ const FlatListItem = props => {
         };
 
         Navigation.navigate('AddDetails', { isEditExisting: true, existingTodoList: existingTodoList })
-    }
+    };
 
     const showDeleteConfirmation = () => {
         Alert.alert(
@@ -63,16 +73,16 @@ const FlatListItem = props => {
                     <Image source={PasswordIcon} style={styles.categoryImage} />
                     <View style={styles.textContainer}>
                         <Text style={styles.title}>{name}</Text>
-                        <Text style={styles.subTitle}>{creationDate.toString()}</Text>
+                        <Text style={styles.subTitle}>{ConvertDate(creationDate)}</Text>
                     </View>
-                    {/* <TouchableOpacity onPress={() => setActiveState()}>
+                    <TouchableOpacity onPress={() => setActiveState()}>
                         <Image source={(!active) ? StarIconActive : StarIconInActive} style={styles.favIcon} />
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                 </View>
             </TouchableOpacity>
         </Swipeout >
     );
-}
+};
 
 class Category extends Component {
     static navigationOptions = ({ navigation }) => {
